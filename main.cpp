@@ -4,6 +4,10 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <assert.h>
+#include <unistd.h>
 
 // for simplicity
 using namespace std;
@@ -67,8 +71,35 @@ void test() {
     cout << "---" << endl;
 }
 
-int main()
-{
-    test();
-    return 0;
+
+int main(int argc, char *argv[]) {
+  
+  int c;
+  char *dateiname;
+  char *programm_name;
+  unsigned short Counter_Option_f = 0;
+  unsigned short Counter_Option_h = 0;
+  unsigned short Counter_Option_v = 0;
+  while ((c = getopt(argc, argv, "Ri:")) != EOF) {
+    switch (c) {
+    case '?':
+      fprintf(stderr, "%s error: Unknown option.\n", programm_name);
+      exit(1);
+      /* Das break ist nach exit() eigentlich nicht mehr notwendig. */
+      break;
+    case 'R':
+      cout << "R!";
+      break;
+    case 'i':
+      cout << "i!";
+      break;
+    default:
+      /* assert() dient nur zu Debugzwecken und sollte nur dort eingesetzt sein,
+         wo etwas sicher niemals passieren darf. 0 ist in C immer gleich
+         "logisch falsch". */
+      assert(0);
+    }
+  }
+
+  return 0;
 }
