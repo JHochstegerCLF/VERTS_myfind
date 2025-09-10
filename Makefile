@@ -4,10 +4,10 @@
 CC = g++
 CFLAGS = -Wall -g
 # ****************************************************
-all: main
-main: Main.o
-	$(CC) $(CFLAGS) -o main Main.o
-Main.o: main.cpp
-	$(CC) $(CFLAGS) -c main.cpp
+all: build run
 clean:
-	rm –f main *.o
+	@rm -f out/* && echo "Clean done"
+build: clean
+	@g++ main.cpp -o out/myfind
+run:
+	@./out/myfind
