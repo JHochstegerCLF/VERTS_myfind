@@ -1,0 +1,3 @@
+C:/Users/Tobia/Documents/Technikum WIen Repos/WS2025/VERTS/VERTS_myfind/cmake-build-debug/CMakeFiles/myapp.dir
+C:/Users/Tobia/Documents/Technikum WIen Repos/WS2025/VERTS/VERTS_myfind/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Tobia/Documents/Technikum WIen Repos/WS2025/VERTS/VERTS_myfind/cmake-build-debug/CMakeFiles/rebuild_cache.dir
