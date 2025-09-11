@@ -16,28 +16,37 @@ string toLowerCase(const string &str) {
     return result;
 }
 
-void searchRecursive(const path& path, const string& key, const bool caseInsensitive) {
+void searchFolderRecursive(const path& path, const string& key, const bool caseInsensitive) {
+    // verify that path is a existing path and directory
     if(exists(path) &&
         is_directory(path)) {
         // If case insensitive, convert both strings (key & entry.path()) to lowerCase using toLowerCase()
         if(caseInsensitive) {
             string keyLower = toLowerCase(key);
+            // iterate over every entry of the current directory defined in @path
             for (const auto& entry : directory_iterator(path)) {
                 string filenameLower = toLowerCase(entry.path().filename().string());
-                if(is_directory(entry)) {
-                    searchRecursive(entry.path().string(), key, caseInsensitive);
-                }else if (filenameLower == keyLower) {
+                // If the file was found it gets saved
+                if (filenameLower == keyLower) {
                     cout << entry.path().string() << endl;
+                }
+                // Recursive call if entry is a directory
+                if(is_directory(entry)) {
+                    searchFolderRecursive(entry.path().string(), key, caseInsensitive);
                 }
             }
             // if not case insensitive don't convert
         }else {
+            // iterate over every entry of the current directory defined in @path
             for(const auto& entry : directory_iterator(path)) {
-                if(is_directory(entry)) {
-                    searchRecursive(entry.path().string(), key, caseInsensitive);
-                }else if(entry.path().filename().string() == key) {
+                // If the file was found it gets saved
+                if(entry.path().filename().string() == key) {
                     cout << entry.path().string() << endl;
                     // save entry somehow and search deeper!
+                }
+                // Recursive call if entry is a directory
+                if(is_directory(entry)) {
+                    searchFolderRecursive(entry.path().string(), key, caseInsensitive);
                 }
             }
         }
@@ -47,15 +56,20 @@ void searchRecursive(const path& path, const string& key, const bool caseInsensi
 void searchFolder(const path& path,const string& key, bool caseInsensitive) {
     if(exists(path) &&
         is_directory(path)) {
+        // case insensitive
         if(caseInsensitive) {
             string keyLower = toLowerCase(key);
+            // iterate over every entry of the current directory defined in @path
             for (const auto& entry : directory_iterator(path)) {
                 string filenameLower = toLowerCase(entry.path().filename().string());
+                // If the file was found it gets saved
                 if(filenameLower == keyLower) {
                     cout << entry.path().string() << endl;
                 }
             }
+            // case sensitive
         }else {
+            // iterate over every entry of the current directory defined in @path
             for (const auto& entry : directory_iterator(path)) {
                 if(entry.path().filename().string() == key) {
                     cout << entry.path().string() << endl;
@@ -65,20 +79,32 @@ void searchFolder(const path& path,const string& key, bool caseInsensitive) {
     }
 }
 
+void test() {
+    path directorypath = "./ebene1";
+
+    cout << "--- Search for G.txt case sensitive ---" << endl;
+    searchFolderRecursive(directorypath, "G.txt", false);
+
+    cout << "--- Search for G.txt case insensitive ---" << endl;
+    searchFolderRecursive(directorypath, "G.txt", true);
+
+    cout << "--- Search for folder case insensitive ---" << endl;
+    searchFolderRecursive(directorypath, "ebene2.1", true);
+
+    cout << "--- Search for dasisteintest.txt case insensitive ---" << endl;
+    searchFolderRecursive(directorypath, "dasisteintest.txt", true);
+
+    cout << "--- Search for A.txt case sensitive ---" << endl;
+    searchFolder(directorypath, "A.txt", false);
+
+    cout << "--- Search for a.txt case insensitive ---" << endl;
+    searchFolder(directorypath, "a.txt", true);
+
+    cout << "---" << endl;
+}
+
 int main()
 {
-    path directorypath = "./ebene1";
-    searchRecursive(directorypath, "G.txt", false);
-    cout << "---" << endl;
-    searchRecursive(directorypath, "h.txt", true);
-    cout << "---" << endl;
-    searchRecursive(directorypath, "dasisteintest.txt", true);
-    cout << "---" << endl;
-
-    directorypath = "./ebene1/ebene2.0/ebene3.0";
-    searchFolder(directorypath, "A.txt", false);
-    cout << "---" << endl;
-    searchFolder(directorypath, "a.txt", true);
-    cout << "---" << endl;
+    test();
     return 0;
 }
