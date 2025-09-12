@@ -10,4 +10,4 @@ clean:
 build: clean
 	@g++ main.cpp -o out/myfind && echo "Build done"
 run:
-	@./out/myfind -R -i ./ test.txt test.doc test
+	@./out/myfind -R -i ./ A.txt B.txt C.txt
