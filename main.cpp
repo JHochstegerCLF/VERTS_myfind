@@ -3,10 +3,10 @@
 #include <algorithm>
 #include <filesystem>
 #include <fstream>
+#include <assert.h>
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
 #include <unistd.h>
 
 // for simplicity
@@ -73,17 +73,17 @@ void test() {
 
 
 int main(int argc, char *argv[]) {
-  
+
   int c;
   char *dateiname;
   char *programm_name;
   unsigned short Counter_Option_f = 0;
   unsigned short Counter_Option_h = 0;
   unsigned short Counter_Option_v = 0;
-  while ((c = getopt(argc, argv, "Ri:")) != EOF) {
+  while ((c = getopt(argc, argv, "Ri")) != EOF) {
     switch (c) {
     case '?':
-      fprintf(stderr, "%s error: Unknown option.\n", programm_name);
+      std::cout << "This is getting out of hand!";
       exit(1);
       /* Das break ist nach exit() eigentlich nicht mehr notwendig. */
       break;
@@ -98,6 +98,13 @@ int main(int argc, char *argv[]) {
          wo etwas sicher niemals passieren darf. 0 ist in C immer gleich
          "logisch falsch". */
       assert(0);
+    }
+  }
+  for (int i = 1; i < argc; i++) {
+    std::string cla = "-";
+    std::string arg = argv[i];
+    if (arg.find(cla) == std::string::npos) {
+      std::cout << "Argument " << i << ": " << argv[i] << std::endl;
     }
   }
 
